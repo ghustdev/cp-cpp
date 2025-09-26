@@ -17,6 +17,10 @@ typedef vector<ll> v_ll;
 // typedef unordered_map<char, ll> u_map_c;
 // typedef set<ll, greater<ll>> set__ll_greater;
 
+// int my_binary_search(ll steps, ll e) {
+
+// }
+
 int main() 
 {
     ios_base::sync_with_stdio(false);
