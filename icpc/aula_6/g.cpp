@@ -17,45 +17,21 @@ typedef vector<ll> v_ll;
 // typedef unordered_map<char, ll> u_map_c;
 // typedef set<ll, greater<ll>> set__ll_greater;
 
-// int my_binary_search(ll steps, ll e) {
-
-// }
-
 int main() 
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t; cin >> t;
+    ll n, k; cin >> n >> k;
+    v_ll vect(n), prefix_gcd(n);
+    
+    ll sum = 0;
+    for (int i=0; i<n; i++)
+        cin >> vect[i];
+    
+    
 
-    while (t--) {
-        ll n, k; cin >> n >> k;
-        v_ll vect(n), prefix_sum(n+1, 0);
-        
-        ll sum = 0;
-        for (int i=0; i<n; i++)
-            cin >> vect[i];
-            
-        sort(vect.begin(), vect.end());
-
-        for (int i=0; i<n; i++) {
-            sum += vect[i];
-
-            prefix_sum[i+1] = sum;
-        } 
-
-        int it = k + 1;
-        ll smaller = LLONG_MAX; 
-        int r = n;
-        while (it--) {
-            ll result = prefix_sum[it*2] + prefix_sum[n] - prefix_sum[r];
-            if (result < smaller)
-                smaller = result;
-            r--;
-        }
-
-        cout << sum - smaller << "\n";
-    }
+    cout << sum - smaller << "\n";
 
     return 0;
 }

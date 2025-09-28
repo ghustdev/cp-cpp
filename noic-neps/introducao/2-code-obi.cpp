@@ -8,21 +8,19 @@ int main () {
 
     int n; cin >> n;
 
-    vector<int> aux(3);
-
-    int t=3;
-    while (t--) 
-        aux[t] = -1;
-
     vector<int> v(n);
-    int i = 0;
-    while (n--) {
-        cin >> v[n];
+    for (int i=0; i<n; i++)
+        cin >> v[i];
 
-        if (aux[i] == -1 && v[n] == 1)
-            aux[i] = 1;
-        else if (aux[i] == -1 && v[n] == 1)
+    int l = 0;
+    int out = 0;
+    while ((l + 2) < n) {
+        if (v[l] == 1 && v[l+1] == 0 && v[l+2] == 0)
+            out++;
+        l++;
     }
+
+    cout << out;
 
     return 0;
 }
