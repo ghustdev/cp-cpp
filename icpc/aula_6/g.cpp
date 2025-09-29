@@ -17,21 +17,30 @@ typedef vector<ll> v_ll;
 // typedef unordered_map<char, ll> u_map_c;
 // typedef set<ll, greater<ll>> set__ll_greater;
 
+const int maxN = 1e5 + 5;
+
 int main() 
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    ll n, k; cin >> n >> k;
-    v_ll vect(n), prefix_gcd(n);
+    int n; cin >> n;
+    int vect[maxN], prefix_gcd[maxN], sufix_gcd[maxN];
     
-    ll sum = 0;
-    for (int i=0; i<n; i++)
-        cin >> vect[i];
+    for (int i=1; i<=n; ++i) cin >> vect[i];
     
-    
+    prefix_gcd[0] = 0;
+    for (int i=1; i<=n; ++i) prefix_gcd[i] = gcd(prefix_gcd[i-1], vect[i]);
 
-    cout << sum - smaller << "\n";
+    sufix_gcd[n+1] = 0;
+    for (int i=n; i>=1; --i) sufix_gcd[i] = gcd(sufix_gcd[i+1], vect[i]);
+
+    int out = 0;
+    for (int i=1; i<=n; ++i) {
+        out = max(out, gcd(prefix_gcd[i-1], sufix_gcd[i+1]));
+    }
+
+    cout << out << "\n";
 
     return 0;
 }
