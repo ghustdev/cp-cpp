@@ -2,7 +2,7 @@
 using namespace std;
 
 typedef long long ll;
-typedef vector<int> v_i;
+typedef vector<ll> v_i;
 typedef vector<ll> v_ll;
 // typedef map<ll, ll> map_ll;
 // typedef set<ll> set_ll;
@@ -17,44 +17,61 @@ typedef vector<ll> v_ll;
 // typedef unordered_map<char, ll> u_map_c;
 // typedef set<ll, greater<ll>> set__ll_greater;
 
-// int my_binary_search(ll steps, ll e) {
-
-// }
-
-int main() 
+int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t; cin >> t;
+    int t;
+    cin >> t;
 
-    while (t--) {
-        ll n, k; cin >> n >> k;
-        v_ll vect(n), prefix_sum(n+1, 0);
-        
-        ll sum = 0;
-        for (int i=0; i<n; i++)
-            cin >> vect[i];
-            
-        sort(vect.begin(), vect.end());
+    while (t--)
+    {
+        ll n, s;
+        cin >> n >> s;
 
-        for (int i=0; i<n; i++) {
-            sum += vect[i];
+        v_i binary(n + 1), prefix(n + 2, 0);
 
-            prefix_sum[i+1] = sum;
-        } 
-
-        int it = k + 1;
-        ll smaller = LLONG_MAX; 
-        int r = n;
-        while (it--) {
-            ll result = prefix_sum[it*2] + prefix_sum[n] - prefix_sum[r];
-            if (result < smaller)
-                smaller = result;
-            r--;
+        int sum = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            cin >> binary[i];
+            sum += binary[i];
         }
 
-        cout << sum - smaller << "\n";
+        for (int i = 1; i <= n; i++)
+            prefix[i] = prefix[i - 1] + binary[i];
+
+        if (sum < s)
+        {
+            cout << -1 << "\n";
+            continue;
+        }
+
+        ll l = 1;
+        ll r_limit = n;
+        ll r = r_limit;
+        ll cases = (n + 1) * n / 2;
+        // int tam = n;
+        for (ll i = 1; i <= cases; i++)
+        {
+            if (prefix[r] - prefix[l - 1] == s)
+            {
+                // tam = r - l + 1;
+                cout << n - (r - l + 1) << "\n";
+                break;
+            }
+
+            l++;
+            r++;
+
+            if (r == n + 1)
+            {
+                r_limit--;
+                l = 1;
+                r = r_limit;
+            }
+        }
     }
 
     return 0;
