@@ -4,7 +4,7 @@ using namespace std;
 // --- STL ---
 typedef long long ll;
 // typedef pair<int, int>; pi;
-// typedef vector<pair<int, int>> v_pi;
+typedef vector<pair<int, int>> v_pi;
 // typedef vector<pair<long, long>> v_pll;
 // typedef unordered_map<ll, ll> u_mll;
 // typedef unordered_map<int, int> u_mii;
@@ -18,42 +18,58 @@ typedef long long ll;
 
 // --- Code ---
 
-const int MAX = 1e3 + 5; // number max of elements
 const int MAX2 = 1e5 + 5; // number max of elements
 
-const int n = 6;
-vector<int> graph[n]; // using lists of adjacents
-int matrix[n][n]; // using matrix
-vector<bool> visited(n);
+vector<int> adj[MAX2]; // using lists of adjacents
+// vector<bool> visited(MAX2);
+// int matrix[n][n]; // using matrix -> não funcional
 
 // using queue
-queue<int> q;
-
-
-int qt[n];
-void dfs_aula(int u, int ant) {
-    for (int v : graph[u]) {
-        if (v != ant)
-            dfs_aula(v, u);
-    }
-}
+// queue<int> q; // frequentemente útil para BFS
 
 int main() 
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    // auto add_edge = [&](int a, int b){
-    //     graph[a].push_back(b);
-    //     graph[b].push_back(a); // não direcionado
-    // };
-    // add_edge(0,1);
-    // add_edge(0,2);
-    // add_edge(1,3);
-    // add_edge(1,4);
-    // add_edge(2,5);
+    ll n, m; cin >> n >> m; 
 
-    dfs_aula(1, 1);
+    for (int i=0; i<m; i++) {
+        int a, b; cin >> a >> b;
+
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+    
+    int max_distance = 0;
+    for (int s=1; s<=n; s++) {
+        // if (!visited[s]) {
+            vector <int> dist(n+1, -1);
+            
+            dist[s] = 0;
+
+            queue<int> q;
+            q.push(s);
+            // visited[s] = true;
+
+            while(!q.empty()) {
+                int curr = q.front();
+                q.pop();
+                
+                for (int neighbor : adj[curr]) {
+                    if (dist[neighbor] == -1) {
+                        dist[neighbor] = dist[curr] + 1;
+                        // visited[neighbor] = true;
+                        q.push(neighbor);
+                        max_distance = max(max_distance, dist[neighbor]);
+                    }
+                }
+            }
+
+        // }
+    }
+
+    cout << max_distance;
 
     return 0;
 }
