@@ -32,7 +32,6 @@ queue<int> q; // frequentemente útil
 void dfs(int s, int ant) {    
     if (visited[s]) return;
     visited[s] = true;
-    subordinates[ant]++;
     cout << s << " " << ant << " - ";
     for (auto n : graph[s]) {
         dfs(n, s);

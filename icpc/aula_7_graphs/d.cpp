@@ -17,39 +17,53 @@ typedef long long ll;
 // --- Functions ---
 
 // --- Code ---
+const int MAX = 2*1e5 + 10;
 
-    const int MAX = 1e3 + 10;
-// const int MA2 = 1e5 + 10;
+int n;
+vector<int> adj[MAX];
+vector<bool> visited;
 
-vector<int> graph[MAX];
-map<int, int> mp;
+void dfs(int s) {    
+    visited[s] = true;
+    
+    for (auto node : adj[s]) {
+        if (n == node || s == node) {
+
+        }
+        if (visited[s]) continue;
+        dfs(node);
+    }
+}
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    
+    int m; cin >> n >> m;
 
-    int n;
-    cin >> n;
+    for (int i = 1; i <= m; i++) {
+        int a, b; cin >> a >> b;
 
-    for (int i = 0; i < n - 1; i++)
-    {
-        int a, b;
-        cin >> a >> b;
-
-        graph[a].push_back(b);
-        graph[b].push_back(a);
+        adj[a].push_back(b);
+        adj[b].push_back(a);
     }
 
-    for (int i = 1; i <= n; i++)
-    {
-        if (graph[i].size() == n - 1)
-        {
-            cout << "Yes";
-            return;
-        }
+    visited.assign(n+1, false);
+
+    vector<int> c;
+    for (int i = 1; i <= n; i++) {
+        if (visited[i]) continue;
+
+        c.push_back(i);
+        dfs(i);
     }
-    cout << "No";
+
+    cout << c.size() - 1 << "\n";
+
+    for (int i=0; i<(int) c.size() - 1; i++) {
+        cout << c[i] << " " << c[i+1] << "\n";
+    }
 
     return 0;
 }

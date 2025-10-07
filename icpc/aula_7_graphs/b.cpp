@@ -17,40 +17,55 @@ typedef long long ll;
 // --- Functions ---
 
 // --- Code ---
-const int MAX = 1e5 + 10;
+const int MAXN = 1e3 * 5;
 
-vector<int> graph[MAX];
-map<int, int> mp;
+vector<int> adj[MAXN];
+vector <bool> visited;
+
+bool is_triangle = false;
+
+void dfs (int s, int ant) {
+    visited[s] = true;
+    for (int n : adj[s]) {
+        if (visited[n] && n != ant && (int)adj[s].size() == 2) {
+            is_triangle = true;
+        }
+        if (visited[n]) continue;
+        dfs(n, s);
+    }
+}
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     
-    int n;
-    cin >> n;
+    int n; cin >> n;
     vector<int> v(n+1);
 
-    map<int, int> mp;
+    visited.assign(n+1, false);
 
     for (int i = 1; i <= n; i++) cin >> v[i];
 
     for (int i = 1; i <= n; i++)
     {
-        int a, b;
-
-        a = v[i];
+        int a, b, c;
+        a = i;
         b = v[a];
+        c = v[b];
 
-        graph[a].push_back(b);
-        graph[b].push_back(a);
+        if (v[c] == i)
+            is_triangle = true;
+
+        adj[a].push_back(b);
     }
 
-    for (int i = 1; i <= n; i++)
-    {
-        
-    }
-    cout << "No";
+    // for (int i = 1; i <= n; i++) {
+    //     if (visited[i]) continue;
+    //     dfs(i, i);
+    // }
+
+    is_triangle ? cout << "YES" :  cout << "NO";
 
     return 0;
 }

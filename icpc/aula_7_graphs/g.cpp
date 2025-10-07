@@ -18,35 +18,26 @@ typedef long long ll;
 
 // --- Code ---
 const int MAXN = 1e5 + 10;
-const int MAXM = 2*1e5 + 10;
 
+int n;
 vector<int> adj[MAXN];
 vector<int> path(MAXN, -1);
-vector<int> dist(MAXN, -1);
-int n;
+vector<bool> visited(MAXN, false);
+int f_cicle, s_cicle;
 
-bool bfs() {
-    queue<int> q;
-
-    int s = 1;
-    dist[s] = 0;
-    q.push(s);
-
-    while(!q.empty()) {
-        int curr = q.front();
-        q.pop();
-
-        if (curr == n) return true;
-        
-        for (int neighbor : adj[curr]) {
-            if (dist[neighbor] == -1) {
-                dist[neighbor] = dist[curr] + 1;
-                path[neighbor] = curr;
-                q.push(neighbor);
-            }
+bool dfs(int s, int p) {  
+    visited[s] = true;
+    for (int node : adj[s]) {
+        if (node == p) continue;
+        if (visited[node]) {
+            f_cicle = s;
+            s_cicle = node;
+            return 1;
         }
+        path[node] = s;
+        if (dfs(node, s)) return 1;
     }
-    return false;
+    return 0;
 }
 
 int main()
@@ -59,24 +50,33 @@ int main()
     for (int i = 1; i <= m; i++) {
         int a, b; cin >> a >> b;
 
-        adj[a].push_back(b);
+        adj[a].push_back(b);     
         adj[b].push_back(a);
     }
 
-    if (!bfs()) {
+    bool have_cicle = false;
+    for (int i=1; i<=n; i++) {
+        if (visited[i]) continue;
+        if (dfs(i, 0)) {
+            have_cicle = true;
+            break;  
+        }
+    }
+
+    if (!have_cicle) {
         cout << "IMPOSSIBLE";
         return 0;
     }
     
     vector<int> out;
-    for (int p = n; p != -1; p = path[p]) 
+    out.push_back(s_cicle);
+    for (int p = f_cicle; p != s_cicle; p = path[p]) 
         out.push_back(p);
-    
-    reverse(out.begin(), out.end());
+    out.push_back(s_cicle);
 
-    cout << dist[n] + 1 << "\n";
+    cout << out.size() << "\n";
     for (int p : out)
         cout << p << " ";
-    
+
     return 0;
 }
