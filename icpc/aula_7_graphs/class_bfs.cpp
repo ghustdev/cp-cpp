@@ -27,6 +27,21 @@ vector<int> adj[MAX2]; // using lists of adjacents
 // using queue
 // queue<int> q; // frequentemente útil para BFS
 
+// --- BFS ---
+// visited[x] = true;
+// distance[x] = 0;
+// q.push(x);
+// while (!q.empty()) {
+//     int s = q.front(); q.pop();
+//     // processa o no s
+//     for (auto u : adj[s]) {
+    //     if (visited[u]) continue;
+    //     visited[u] = true;
+    //     distance[u] = distance[s]+1;
+    //     q.push(u);
+    // }
+// }
+
 int main() 
 {
     ios_base::sync_with_stdio(false);
@@ -43,30 +58,25 @@ int main()
     
     int max_distance = 0;
     for (int s=1; s<=n; s++) {
-        // if (!visited[s]) {
-            vector <int> dist(n+1, -1);
+        vector <int> dist(n+1, -1);
+        
+        dist[s] = 0;
+
+        queue<int> q;
+        q.push(s);
+
+        while(!q.empty()) {
+            int curr = q.front();
+            q.pop();
             
-            dist[s] = 0;
-
-            queue<int> q;
-            q.push(s);
-            // visited[s] = true;
-
-            while(!q.empty()) {
-                int curr = q.front();
-                q.pop();
-                
-                for (int neighbor : adj[curr]) {
-                    if (dist[neighbor] == -1) {
-                        dist[neighbor] = dist[curr] + 1;
-                        // visited[neighbor] = true;
-                        q.push(neighbor);
-                        max_distance = max(max_distance, dist[neighbor]);
-                    }
+            for (int neighbor : adj[curr]) {
+                if (dist[neighbor] == -1) {
+                    dist[neighbor] = dist[curr] + 1;
+                    q.push(neighbor);
+                    max_distance = max(max_distance, dist[neighbor]);
                 }
             }
-
-        // }
+        }
     }
 
     cout << max_distance;
