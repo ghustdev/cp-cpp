@@ -7,6 +7,7 @@ void quickSort(ll v[], ll low, ll high);
 int partition(ll v[], ll low, ll high);
 void swap(ll *a, ll *b);
 
+
 int main ()
 {
     ll n; scanf("%lld", &n);
