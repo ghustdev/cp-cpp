@@ -23,6 +23,7 @@ const int MAXN = 1e5 + 10;
 const int MAXM = 1e5 + 10;
 
 vector<vector<pll>> adj(MAXN);
+
 int n, m;
 
 int main()
@@ -37,9 +38,7 @@ int main()
         int a, b, w;
         cin >> a >> b >> w;
 
-        // Não direcionado
         adj[a].push_back({b, w});
-        adj[b].push_back({a, w});
     }
 
     int ori = 1;
@@ -61,6 +60,7 @@ int main()
         pq.pop();
 
         if (visited[node]) continue;
+
         visited[node] = true;
 
         if (node == n) track = true;

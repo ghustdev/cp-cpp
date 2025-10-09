@@ -19,17 +19,62 @@ typedef long long ll;
 
 // --- Code ---
 const ll INF = 1e16;
-const int MAXN = 1e5 + 10;
+const int MAXN = 2 * 1e5 + 10;
 const int MAXM = 2 * 1e5 + 10;
 
 vector<int> adj[MAXN];
 vector<int> dist_s;
 vector<int> dist_e;
-int n, m, max_e;
+vector<int> dist;
+int n, m, max_dist, n_max, n_e, n_s;
 
-queue<int> q;
 void bfs(int s) {
-    int u = q.front(); q.pop();
+    dist[s] = 0;
+    max_dist = 0;
+    n_max = s;
+
+    queue<int> q;
+    q.push(s);
+
+    while (!q.empty()) {
+        int curr = q.front(); q.pop();
+
+        for (int v : adj[curr]) {
+            if (dist[v] == -1) {
+                dist[v] = dist[curr] + 1;
+                q.push(v);
+                if (max_dist < dist[v]) n_max = v;
+                max_dist = max(max_dist, dist[v]);
+            }
+        }
+    }
+}
+
+void bfs_each_node(int s) {
+    if (s == n_e) dist_e[s] = 0;
+    if (s == n_s) dist_s[s] = 0;
+
+    queue<int> q;
+    q.push(s);
+
+    while (!q.empty()) {
+        int curr = q.front(); q.pop();
+
+        for (int v : adj[curr]) {
+            if (s == n_e) {
+                if (dist_e[v] == -1) {
+                    dist_e[v] = dist_e[curr] + 1;
+                    q.push(v);
+                }
+            }
+            if (s == n_s) {
+                if (dist_s[v] == -1) {
+                    dist_s[v] = dist_s[curr] + 1;
+                    q.push(v);
+                }
+            }
+        }
+    }
 }
 
 int main()
@@ -50,13 +95,22 @@ int main()
 
     dist_e.assign(n+1, -1);
     dist_s.assign(n+1, -1);
+    
+    int start = 1;
+    dist.assign(n+1, -1);
+    bfs(start);
+    n_e = n_max;
+    
+    dist.assign(n+1, -1);
+    bfs(n_e);
+    n_s = n_max;
 
+    bfs_each_node(n_e);
+    bfs_each_node(n_s);
 
-    int origem = 1;
-    q.push(origem);
-    bfs(origem);
-
-
+    for (int v=1; v<=n; v++) {
+        cout << max(dist_e[v], dist_s[v]) << " ";
+    }
 
     return 0;
 }

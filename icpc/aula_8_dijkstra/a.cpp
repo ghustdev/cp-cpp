@@ -37,7 +37,6 @@ int main()
         int a, b, w;
         cin >> a >> b >> w;
 
-        // Não direcionado
         adj[a].push_back({b, w});
     }
 
