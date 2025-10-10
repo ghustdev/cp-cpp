@@ -16,6 +16,11 @@ typedef long long ll;
 // stack, queue, map, set, list, deque;
 // --- Functions ---
 
+// --- Code ---
+const ll MAXA = 1e9 + 10;
+const int MAXN = 2 * 1e5 + 10;
+const ll MIND = -1e9 - 10;
+
 int main() 
 {
     ios_base::sync_with_stdio(false);
@@ -25,21 +30,17 @@ int main()
 
     while (q--) {
         int n; cin >> n;
+        vector<ll> v(n);
 
-        int count_zero = 0;
-        int count_negative = 0;
-        vector<int> v(n);
-        for (int i=0; i<n; i++) {
-            cin >> v[i];
-            if (v[i] == -1) count_negative++;
-            if (v[i] == 0) count_zero++;
-        }
+        for (int i=0; i<n; i++) cin >> v[i];
+        
+        sort(v.begin(), v.end());
 
-        int out = count_zero;
-        if (count_negative % 2 != 0)
-            out += 2;
+        ll max_diference = MIND;
+        for (int i=0; i<n/2; i++)
+            max_diference = max(max_diference, abs(v[2*i+1] - v[2*i]));
 
-        cout << out << "\n";
+        cout << max_diference << "\n";
     }
 
     return 0;
