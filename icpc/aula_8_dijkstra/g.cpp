@@ -17,6 +17,7 @@ typedef pair<ll, ll> pll;
 // stack, queue, map, set, list, deque;
 // --- Functions ---
 
+
 // --- Code ---
 const ll INF = 1e16;
 const int MAXN = 1e5 + 10;
