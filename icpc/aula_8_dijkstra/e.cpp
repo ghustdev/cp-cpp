@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+    #include <bits/stdc++.h>
 using namespace std;
 
 // --- STL ---
@@ -22,11 +22,11 @@ const ll INF = 1e16;
 const int MAXN = 1e5 + 10;
 const int MAXM = 2 * 1e5 + 10;
 
-vector<vector<pll>> adj(MAXN);
-vector<vector<ll>> paths(n);
+vector<vector<pll>> adj(MAXN); 
+
 int n, m;
 ll price;
-bool state = 0;
+
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -44,17 +44,21 @@ int main()
 
     int ori = 1;
 
-    vector<pair<ll, bool>> dist(n + 1, {INF, false});
-    dist[ori] = {0, state};
+    // vector<array<ll,2>> dist(n + 1, {INF, INF});
+    //     node, state -> guarda os valores para cada estado, 0 = não usou, 1 = usou;
+    ll dist[n+1][2];
+    dist[ori][0] = 0;
 
-    priority_queue<pll, vector<pll>, greater<pll>> pq;
-    pq.push({0, ori});
+    //            weight, node, state
+    using t = tuple<ll, int, int>;
+    priority_queue<t, vector<t>, greater<t>> pq;
+    pq.emplace(0, 1, 0);
 
     vector<bool> visited(n+1);
 
     while (!pq.empty())
     {
-        auto node = pq.top().second; 
+        auto [w, node, state] = pq.top(); 
         pq.pop();
 
         if (visited[node]) continue;
@@ -62,13 +66,22 @@ int main()
 
         for (auto [v, p] : adj[node])
         {
-            if (dist[node] + p < dist[v])
+            if (w + p < dist[v][state])
             {
-                dist[v] = dist[node] + p;
-                pq.push({dist[v], v});
+                dist[v][state] = w + p;
+                pq.emplace(w + p, v, state);
+            }
+            if (state == 0) {
+                ll p_cupom = w + (p/2);
+                if (p_cupom < dist[v][1]) {
+                    dist[v][1] = p_cupom;
+                    pq.emplace(p_cupom, v, 1);
+                }
             }
         }
     }
+
+    cout << dist[n][1];
 
     return 0;
 }
