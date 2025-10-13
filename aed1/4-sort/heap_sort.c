@@ -5,63 +5,113 @@
 
 #include <stdio.h>
 
-int size;
-int n;
+typedef long long int ll;
+ll size;
+ll n;
+
+// Exibir o vetor organizado
+void printaVetor(ll v[])
+{
+    for (ll i = 0; i < n; i++)
+        printf("%lld ", v[i]);
+    printf("\n");
+}
 
 // Trocar elementos com base no ponteiro
-void swap_elements(int *a, int *b)
+void swapElements(ll *a, ll *b)
 {
-    int aux = *a;
+    ll aux = *a;
     *a = *b;
     *b = aux;
 }
 
-// Executa o max heap (não completo)
-void heap_sort(int v[], int father)
+// Executa a ordenação através do max heap
+void heap(ll vec[], ll father)
 {
-    if (father == -1)
+    ll f1 = father * 2 + 1;
+    if (f1 >= size) return;
+    else if (father * 2 + 2 < size)
     {
-        swap_elements(&v[0], &v[size - 1]);
-        size--;
-        return;
-    }
-
-    int f1 = father * 2 + 1;
-    if (father * 2 + 2 < size)
-    {
-        int f2 = father * 2 + 2;
-        if (v[f1] > v[f2])
+        ll f2 = father * 2 + 2;
+        if (vec[f1] > vec[f2])
         {
-            if (v[father] < v[f1])
-                swap_elements(&v[father], &v[f1]);
+            if (vec[father] < vec[f1])
+            {
+                swapElements(&vec[father], &vec[f1]);
+                heap(vec, f1);
+            }
         }
         else
-        {
-            if (v[father] < v[f2])
-                swap_elements(&v[father], &v[f2]);
-        }
-    } else
-    {
-        if (v[father] < v[f1])
-            swap_elements(&v[father], &v[f1]);
+        { 
+            if (vec[father] < vec[f2])
+            {
+                swapElements(&vec[father], &vec[f2]);
+                heap(vec, f2);
+            }
+        }  
     }
+    else
+    {
+        if (vec[father] < vec[f1])
+        {
+            swapElements(&vec[father], &vec[f1]);
+            heap(vec, f1);
+        }
+    }
+    return;
+}
 
-    heap_sort(v, father - 1);
+// Executa o max heap inicial
+void max_heap(ll v[], ll father)
+{
+    ll f1 = father * 2 + 1;
+    if (f1 >= size) return;
+    if (father * 2 + 2 < size)
+    {
+        ll f2 = father * 2 + 2;
+        if (v[f1] > v[f2])
+        {
+            if (v[father] < v[f1]){
+                swapElements(&v[father], &v[f1]);
+                max_heap(v, f1);
+            }
+        }   
+        else
+        {
+            if (v[father] < v[f2]){
+                swapElements(&v[father], &v[f2]);
+                max_heap(v, f2);
+            }
+        }
+    }
+    else
+    {
+        if (v[father] < v[f1]){
+            swapElements(&v[father], &v[f1]);
+            max_heap(v, f1);
+        }
+    }
+    return;
 }
 
 int main()
 {
-    scanf("%d", &n);
+    scanf("%lld", &n);
     size = n;
 
-    int v[n];
-    for (int i=0; i<n; i++) scanf("%d", &v[i]);
+    ll vector[n];
+    for (ll i = 0; i < n; i++)
+        scanf("%lld", &vector[i]);
 
-    while (size >= 1)
-        heap_sort(v, size/2 - 1);
+    for (ll i = n/2 - 1; i >= 0 ; i--) max_heap(vector, i);
+    
+    while (size > 1) {
+        swapElements(&vector[0], &vector[size - 1]);
+        size--;
+        heap(vector, 0);
+    }
 
-    for (int i = 0; i < n; i++)
-        printf("%d ", v[i]);
+    printaVetor(vector);
 
     return 0;
 }

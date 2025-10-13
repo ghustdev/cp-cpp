@@ -20,19 +20,18 @@ typedef pair<ll, ll> pll;
 // --- Code ---
 const ll INF = 1e16;
 const int MAXN = 1e5 + 10;
-const int MAXM = 2 * 1e5 + 10;
+const int MAXM = 1e5 + 10;
+const int MAXK = 10;
 
 vector<vector<pll>> adj(MAXN);
-vector<vector<ll>> paths(n);
-int n, m;
-ll price;
-bool state = 0;
+int n, m, k;
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    cin >> n >> m;
+    cin >> n >> m >> k;
 
     for (int i = 1; i <= m; i++)
     {
@@ -44,31 +43,45 @@ int main()
 
     int ori = 1;
 
-    vector<pair<ll, bool>> dist(n + 1, {INF, false});
-    dist[ori] = {0, state};
+    vector<priority_queue<ll>> dist(n + 1);
+    dist[ori].push(0);
 
     priority_queue<pll, vector<pll>, greater<pll>> pq;
     pq.push({0, ori});
 
-    vector<bool> visited(n+1);
-
     while (!pq.empty())
     {
-        auto node = pq.top().second; 
+        int node = pq.top().second; 
+        ll weight = pq.top().first; 
         pq.pop();
 
-        if (visited[node]) continue;
-        visited[node] = true;
+        if (dist[node].size() == (size_t) k && weight > dist[node].top()) continue;
 
-        for (auto [v, p] : adj[node])
+        for (auto edge : adj[node])
         {
-            if (dist[node] + p < dist[v])
+            int v = edge.first;
+            ll p = edge.second;
+
+            if (dist[v].size() < (size_t) k)
             {
-                dist[v] = dist[node] + p;
-                pq.push({dist[v], v});
+                dist[v].push(weight + p);
+                pq.push({weight + p, v});
+            }
+            else if (weight + p < dist[v].top()) {
+                dist[v].pop();
+                dist[v].push(weight + p);
+                pq.push({weight + p, v});
             }
         }
     }
+
+    vector<ll> out;
+    while(!dist[n].empty()) {
+        out.push_back(dist[n].top());
+        dist[n].pop();
+    }
+
+    for (int i=k-1; i>=0; i--) cout << out[i] << " ";
 
     return 0;
 }
