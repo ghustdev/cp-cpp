@@ -33,6 +33,7 @@ int main()
     cin.tie(NULL);
 
     cin >> n >> m;
+    int last = n;
 
     for (int i = 1; i <= m; i++)
     {
@@ -42,46 +43,40 @@ int main()
         adj[a].push_back({b, w});
     }
 
-    int ori = 1;
+    int origin = 1;
 
-    // vector<array<ll,2>> dist(n + 1, {INF, INF});
-    //     node, state -> guarda os valores para cada estado, 0 = não usou, 1 = usou;
-    ll dist[n+1][2];
-    dist[ori][0] = 0;
+    vector<vector<ll>> dist(n+1, vector<ll>(2, INF));
+    dist[origin][0] = 0;
 
-    //            weight, node, state
     using t = tuple<ll, int, int>;
     priority_queue<t, vector<t>, greater<t>> pq;
-    pq.emplace(0, 1, 0);
+    pq.emplace(0, origin, 0);
 
     vector<bool> visited(n+1);
 
     while (!pq.empty())
     {
-        auto [w, node, state] = pq.top(); 
+        auto [w, n, state] = pq.top(); 
         pq.pop();
 
-        if (visited[node]) continue;
-        visited[node] = true;
+        if (w != dist[n][state]) continue;
 
-        for (auto [v, p] : adj[node])
+        for (auto [v, p] : adj[n])
         {
             if (w + p < dist[v][state])
             {
                 dist[v][state] = w + p;
                 pq.emplace(w + p, v, state);
             }
-            if (state == 0) {
-                ll p_cupom = w + (p/2);
-                if (p_cupom < dist[v][1]) {
-                    dist[v][1] = p_cupom;
-                    pq.emplace(p_cupom, v, 1);
-                }
+            ll w_coupon = w + (p/2);
+            if (state == 0 && w_coupon < dist[v][1]) {
+                dist[v][1] = w_coupon;
+                pq.emplace(w_coupon, v, 1);
             }
         }
     }
 
-    cout << dist[n][1];
+    cout << dist[last][1];
 
     return 0;
 }
