@@ -3,9 +3,8 @@ using namespace std;
 
 // --- STL ---
 typedef long long ll;
-// typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-// typedef vector<pair<int, int>> v_pii;
+// typedef pair<int, int>; pi;
+// typedef vector<pair<int, int>> v_pi;
 // typedef vector<pair<long, long>> v_pll;
 // typedef unordered_map<ll, ll> u_mll;
 // typedef unordered_map<int, int> u_mii;
@@ -15,18 +14,15 @@ typedef long long ll;
 // typedef priority_queue<int, vector<int>, greater<int>> qi_greater; // Min heap (min in top)
 // typedef set<ll, greater<ll>> sll_greater; // Min heap (min in top)
 // stack, queue, map, set, list, deque;
+
 // --- Functions ---
 
+
 // --- Code ---
-
-int n, m;
-
-int main()
+int main() 
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-
-    cin >> n;
 
     
 

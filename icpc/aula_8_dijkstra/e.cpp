@@ -52,8 +52,6 @@ int main()
     priority_queue<t, vector<t>, greater<t>> pq;
     pq.emplace(0, origin, 0);
 
-    vector<bool> visited(n+1);
-
     while (!pq.empty())
     {
         auto [w, n, state] = pq.top(); 
