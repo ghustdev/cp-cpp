@@ -19,12 +19,44 @@ typedef long long ll;
 
 
 // --- Code ---
-int main() 
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+        string s;
+        cin >> s;
+
+        vector<int> ones_position;
+        for (int i = 0; i < n; i++)
+            if (s[i] == '1')
+                ones_position.push_back(i);
+
+        int out = 0;
+        int last_pos_protected = -1;
+        int i = 0;
+
+        while (i < (int) ones_position.size()) {
+            if (last_pos_protected != -1 && ones_position[i] <= last_pos_protected + k - 1) {
+                i++;
+                continue;
+            }
+
+            int j = i;
+            while (j + 1 < (int) ones_position.size() && ones_position[j + 1] <= ones_position[i] + k - 1)
+                j++;
+
+            last_pos_protected = ones_position[j];
+            out++;
+            i = j + 1;
+        }
+
+        cout << out << "\n";
+    }
 
     return 0;
 }
