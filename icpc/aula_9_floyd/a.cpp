@@ -22,7 +22,6 @@ typedef long long ll;
 const ll INF = 1e16;
 
 vector<vector<ll>> dist;
-vector<vector<ll>> adj;
 ll n, m, q;
 
 void floydWarshall() {
