@@ -26,22 +26,34 @@ int main ()
 {
     ios_base::sync_with_stdio( false );
     cin.tie( NULL );
-
-    int n; cin >> n;
-
-    if (n == 1) {
-        cout << 1;
-        return 0;
-    }
     
-    if (n < 4) {
-        cout << "NO SOLUTION";
-        return 0;
-    }
+    int t; cin >> t;
 
-    for (int i=2; i<=n; i = i + 2) cout << i << " ";
-    
-    for (int i=1; i<=n; i = i+2) cout << i << " ";
+    while (t--) {
+        ll y, x, max, min; cin >> y >> x;
+
+        if (x > y) {
+            max = x;
+            min = y;
+        } else {
+            max = y;
+            min = x;
+        }
+
+        ll diag_max = max*max - (max - 1);
+
+        ll value = 0;
+        if (min == y && max%2==0) 
+            value = diag_max - (max - min);
+        if (min == x && max%2==0) 
+            value = diag_max + (max - min);
+        if (min == y && max%2!=0) 
+            value = diag_max + (max - min);
+        if (min == x && max%2!=0) 
+            value = diag_max - (max - min);
+
+        cout << value << "\n";
+    }
 
     return 0;
 }
