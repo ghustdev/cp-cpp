@@ -30,29 +30,17 @@ int main ()
     int t; cin >> t;
 
     while (t--) {
-        ll y, x, max, min; cin >> y >> x;
+        ll y, x; cin >> y >> x;
 
-        if (x > y) {
-            max = x;
-            min = y;
+        ll m = max(y, x);
+
+        ll diag_max = m*m - m + 1;
+
+        if (m % 2 == 0) {
+            m == y ? cout << diag_max + (y - x) << "\n" : cout << diag_max - (x - y) << "\n";
         } else {
-            max = y;
-            min = x;
+            m == x ? cout << diag_max + (x - y) << "\n" : cout << diag_max - (y - x) << "\n";
         }
-
-        ll diag_max = max*max - (max - 1);
-
-        ll value = 0;
-        if (min == y && max%2==0) 
-            value = diag_max - (max - min);
-        if (min == x && max%2==0) 
-            value = diag_max + (max - min);
-        if (min == y && max%2!=0) 
-            value = diag_max + (max - min);
-        if (min == x && max%2!=0) 
-            value = diag_max - (max - min);
-
-        cout << value << "\n";
     }
 
     return 0;
