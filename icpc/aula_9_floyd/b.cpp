@@ -46,6 +46,9 @@ int main ()
         // vector<string> v(cities+1);
         dist.assign(n+1, vector<int>(n+1, INF));
         u_m mp;
+
+        for (int i=1; i<=n; i++)
+            dist[i][i] = 0;
         
         int city = 1;
         while (city <= cities) {
