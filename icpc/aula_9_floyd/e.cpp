@@ -42,29 +42,32 @@ int main ()
     int t; cin >> t;
     for (int caso = 1; caso <= t; caso++){
         cin >> n;
+        int r; 
+        cin >> r;
         
         dist.assign(n, vector<int>(n, INF));
         
         for (int i=0; i<n; i++)
             dist[i][i] = 0;
         
-        for (int a=0; a<n; a++) {
-            for (int b=0; b<n; b++) {
-                int w; cin >> w;
-                dist[a][b] = w;
-            }
+        for (int i=0; i<r; i++) {
+            int a, b; cin >> a >> b;
+            
+            dist[a][b] = 1;
+            dist[b][a] = 1;
         }
+        
+        int s, d; cin >> s >> d;
         
         floydWarshall();
-        
-        int r; cin >> r;
-        ll total_dist = 0;
-        for (int i=0; i<r; i++) {
-            int s, d; cin >> s >> d;
-            total_dist += dist[s-1][d-1];
+
+        int time = 0;
+        for (int i=0; i<n; i++) {
+            if (dist[s][i] < INF && dist[i][d] < INF)
+                time = max(time, dist[s][i] + dist[i][d]);
         }
 
-        cout << "Case #" << caso << ": " << total_dist << "\n";
+        cout << "Case " << caso << ": " << time << "\n";
     }
 
     return 0;
