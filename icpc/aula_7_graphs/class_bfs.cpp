@@ -56,9 +56,10 @@ int main()
         adj[b].push_back(a);
     }
     
+    vector <int> dist(n+1, -1);
     int max_distance = 0;
     for (int s=1; s<=n; s++) {
-        vector <int> dist(n+1, -1);
+        if (dist[s] > -1) continue;
         
         dist[s] = 0;
 
