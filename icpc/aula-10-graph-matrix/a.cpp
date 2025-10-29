@@ -20,7 +20,6 @@ const ll INF = 1e18;
 const int MAXN = 1e3 + 10;
 
 // --- Functions ---
-vector<vector<ll>> adj;  // matriz de adjacência
 int n, m;
 
 // --- Code ---
@@ -29,44 +28,40 @@ int main ()
     ios_base::sync_with_stdio( false );
     cin.tie( nullptr );
     
-    cin >> n >> m;
+    cin >> n;
+    
+    int origin = 0;
+    queue<pair<int,int>> q;
+    vector<vector<ll>> dist(n, vector<ll>(n, -1));
 
-    adj.assign(n+1, vector<ll>(n+1, 0));
+    // genial
+    int dx[8] = {2, 2, 1, 1, -1, -1, -2, -2};
+    int dy[8] = {1, -1, 2, -2, 2, -2, 1, -1};
 
-    for (int i = 0; i < m; i++)
-    {
-        int a, b, w;
-        cin >> a >> b >> w;
-        adj[a][b] = w;
-        adj[b][a] = w;
-    }
+    q.push({origin, origin});
+    dist[origin][origin] = 0;
 
-    ll origin = 1;
-    vector<ll> dist(n + 1, INF);
-    vector<bool> visited(n + 1, false);
+    while (!q.empty()) {
+        int x = q.front().first; 
+        int y = q.front().second; 
+        q.pop();
 
-    for (int step = 1; step <= n; step++)
-    {
-        // escolher menor nó para cada volta, semelhante ao qp do Dijkstra normal
-        int u = -1;
-        for (int i = 1; i <= n; i++)
-        {
-            if (!visited[i] && (u == -1 || dist[i] < dist[u]))
-                u = i;
-        }
+        for (int i=0; i<8; i++) {
+            int moveX = x + dx[i];
+            int moveY = y + dy[i];
 
-        visited[u] = true;
-
-        // relaxa todos os vértices (não apenas os vizinhos)
-        for (int v = 1; v <= n; v++)
-        {
-            if (adj[u][v] != 0) // existe aresta u -> v
-            {
-                ll w = adj[u][v];
-                if (dist[u] + w < dist[v])
-                    dist[v] = dist[u] + w;
+            if (moveX < n && moveX >= 0 && moveY >= 0 && moveY < n && dist[moveX][moveY] == -1) {
+                dist[moveX][moveY] = dist[x][y] + 1;
+                q.push({moveX, moveY});
             }
         }
+    }
+
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            cout << dist[i][j] << " ";
+        }
+        cout << "\n";
     }
 
     return 0;
