@@ -58,9 +58,6 @@ int main ()
 
             int p; cin >> p;
 
-            for (int i=1; i<=n; i++)
-                dist[i][i] = 0;
-
             for (int i=1; i<=p; i++) {
                 int c, w; cin >> c >> w;
 

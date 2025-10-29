@@ -36,37 +36,41 @@ int main()
     for (int i=1; i<=n; i++)
         dist[i][i] = 0;
 
-    int sum = 0;
     for (int i=1; i<=n; i++) {
         for (int j=1; j<=n; j++) {
             int w; cin >> w;
-            if (dist[i][j] > 0) continue;
-
             dist[i][j] = w;
-            dist[j][i] = w;
-            sum += w;
         }
     }
-
-    cout << sum << "\n";
-
+    
     int k; cin >> k;
     for (int i=1; i<=k; i++) {
         int a, b, p; cin >> a >> b >> p;
-
+        
         if (p < dist[a][b]) {
-            sum-=dist[a][b];
             dist[a][b] = p;
             dist[b][a] = p;
-            sum+=p;
-
+            
             for (int i=1; i<=n; i++) {
                 for (int j=1; j<=n; j++) {
-                    
+                    if (dist[i][a] + dist[a][b] + dist[b][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][a] + dist[a][b] + dist[b][j];
+                        dist[j][i] = dist[i][j];
+                    }
+                    if (dist[i][b] + dist[b][a] + dist[a][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][b] + dist[b][a] + dist[a][j];
+                        dist[j][i] = dist[i][j];
+                    }
                 }
-
-            cout << sum << " ";
+            }
         }
+        
+        ll sum = 0;
+        for (int i=1; i<=n; i++) {
+            for (int j=i+1; j<=n; j++) 
+                sum += dist[i][j];
+        }
+        cout << sum << " ";
     }
 
     return 0;
