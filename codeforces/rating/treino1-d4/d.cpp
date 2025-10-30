@@ -35,11 +35,11 @@ int main ()
         for (int i=1; i<=n; i++) {
             ll a; cin >> a;
             
-            prefix_gcd= gcd(prefix_gcd, a);
+            prefix_gcd = __gcd(prefix_gcd, a);
         }
 
         ll x = 2;
-        while (gcd(x, prefix_gcd) != 1) 
+        while (__gcd(x, prefix_gcd) != 1) 
             x++;
         
         cout << x << "\n";
