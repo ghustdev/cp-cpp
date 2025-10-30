@@ -23,5 +23,7 @@ int main() {
         }
     }
 
+    // cout << points[points.size() - 2];
+
     return 0;
 }
