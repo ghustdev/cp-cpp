@@ -1,4 +1,4 @@
-// Start learn USACO Guide
+// Start learn USACO Guide 
 
 #include <bits/stdc++.h>
 
