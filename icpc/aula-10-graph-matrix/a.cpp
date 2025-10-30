@@ -20,7 +20,7 @@ const ll INF = 1e18;
 const int MAXN = 1e3 + 10;
 
 // --- Functions ---
-int n, m;
+int n;
 
 // --- Code ---
 int main () 

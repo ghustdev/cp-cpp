@@ -47,7 +47,7 @@ int main ()
 
     for (int step = 1; step <= n; step++)
     {
-        // escolher menor nó para cada volta, semelhante ao qp do Dijkstra normal
+        // escolher menor nó para cada volta, semelhante ao pq do Dijkstra normal
         int u = -1;
         for (int i = 1; i <= n; i++)
         {
