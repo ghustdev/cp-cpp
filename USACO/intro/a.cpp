@@ -1,3 +1,5 @@
+// Start learn USACO Guide
+
 #include <bits/stdc++.h>
 
 using namespace std;
