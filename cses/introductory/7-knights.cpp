@@ -27,7 +27,12 @@ int main ()
     ios_base::sync_with_stdio( false );
     cin.tie( NULL );
     
-    
+    ll k; cin >> k;
+
+    for (ll i=1; i<=k; i++) {
+        ll out = (i*i*(i*i-1)/2) - (4*(i-1)*(i-2));
+        cout << out << "\n";
+    }
 
     return 0;
 }
